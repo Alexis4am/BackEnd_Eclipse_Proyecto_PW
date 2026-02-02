@@ -8,17 +8,11 @@ import java.io.Serializable;
 @Table(name = "PW_PROGRAMADOR_DETALLES")
 public class ProgramadorDetalles implements Serializable {
 
-    // --- SECCIÓN INTACTA (ID COMPARTIDO CON USUARIO) ---
-    @Id
-    @Column(name = "det_programador_id")
-    private int id;
-
-    @OneToOne
-    @MapsId // Esto hace que comparta la MISMA ID que Usuario (Clave Primaria Compartida)
-    @JoinColumn(name = "det_programador_id")
-    @JsonbTransient
-    private Usuario usuario;
-    
+	@Id
+	@Column(name = "det_programador_id")
+	private int id;
+	
+	
     @Column(name = "det_nombre_completo", length = 100)
     private String nombreCompleto;
 
@@ -72,14 +66,6 @@ public class ProgramadorDetalles implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public String getEspecialidad() {
