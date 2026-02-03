@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class ProgramadorDetalles implements Serializable {
 
 	@Id
-	@Column(name = "det_programador_id")
+	@Column(name = "det_programador_id") //debe de tener el mismo id que USUARIO 
 	private int id;
 	
 	

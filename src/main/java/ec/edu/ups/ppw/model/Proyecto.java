@@ -1,6 +1,5 @@
 package ec.edu.ups.ppw.model;
 
-import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,19 +11,14 @@ public class Proyecto {
     
     public Proyecto() {}
 
-    // --- SECCIÓN INTACTA ---
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pry_id")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pry_programador_id", nullable = false)
-    @JsonbTransient
-    //AUN EL JSON DEBE MOSTRAR ALGUNA INFORMACION SOBRE 
-    //EL PROGRAMADOR, COMO MINIMO UN ID
-    private Usuario programador; // El dueño del portafolio
-    // -----------------------
+    // Solo guardamos el ID del programador (sin relación JPA)
+    @Column(name = "pry_programador_id", nullable = false)
+    private int programadorId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "pry_categoria", nullable = false)
@@ -36,34 +30,27 @@ public class Proyecto {
     @Column(name = "pry_descripcion", columnDefinition = "TEXT")
     private String descripcion;
     
-    // Agregado: pry_tecnologias_usadas
     @Column(name = "pry_tecnologias_usadas", length = 255)
     private String tecnologiasUsadas;
     
     @Column(name = "pry_url_repositorio", length = 512)
     private String urlRepositorio;
     
-    // Agregado: pry_url_despliegue
     @Column(name = "pry_url_despliegue", length = 512)
     private String urlDespliegue;
 
-    // Agregado: pry_url_imagen_preview
     @Column(name = "pry_url_imagen_preview", length = 512)
     private String urlImagenPreview;
 
-    // Agregado: pry_created_at
     @Column(name = "pry_created_at")
     private LocalDateTime createdAt;
 
-    // Agregado: pry_updated_at
     @Column(name = "pry_updated_at")
     private LocalDateTime updatedAt;
 
-    // Agregado: pry_activo
     @Column(name = "pry_activo")
     private Boolean activo;
 
-    // --- MÉTODOS DE AUDITORÍA (Opcional, pero recomendado para fechas automáticas) ---
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
@@ -86,17 +73,12 @@ public class Proyecto {
         this.id = id;
     }
 
-    public Usuario getProgramador() {
-        return programador;
+    public int getProgramadorId() {
+        return programadorId;
     }
 
-    public void setProgramador(Usuario programador) {
-        this.programador = programador;
-    }
-    
-    // TRUCO: Este getter permite que el JSON muestre el ID aunque el objeto Usuario esté oculto
-    public Integer getProgramadorId() {
-        return programador != null ? programador.getId() : null;
+    public void setProgramadorId(int programadorId) {
+        this.programadorId = programadorId;
     }
 
     public ProjectCategory getCategoria() {

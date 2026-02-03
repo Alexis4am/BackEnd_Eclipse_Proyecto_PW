@@ -10,17 +10,15 @@ import ec.edu.ups.ppw.model.enums.Modality;
 @Table(name = "PW_DISPONIBILIDADES")
 public class Disponibilidad {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dsp_id")
     private int id;
 
-    // Relación: Un horario pertenece a un Programador
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dsp_programador_id", nullable = false)
-    @JsonbTransient
-    private Usuario programador;
-
+    // Se guarda el ID del programador (sin relación JPA)
+    @Column(name = "dsp_programador_id", nullable = false)
+    private int programadorId;
+    
     @Column(name = "dsp_dia_semana", length = 20, nullable = false)
     private String diaSemana; // Ej: "MONDAY", "TUESDAY"
 
@@ -36,11 +34,7 @@ public class Disponibilidad {
 
     public Disponibilidad() {}
 
- // Permite ver el ID del programador en el JSON aunque el objeto Usuario esté oculto
-    public Integer getProgramadorId() {
-        return programador != null ? programador.getId() : null;
-    }
-    
+
 	public int getId() {
 		return id;
 	}
@@ -48,15 +42,14 @@ public class Disponibilidad {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public Usuario getProgramador() {
-		return programador;
+	public int getProgramadorId() {
+	    return programadorId;
 	}
 
-	public void setProgramador(Usuario programador) {
-		this.programador = programador;
+	public void setProgramadorId(int programadorId) {
+	    this.programadorId = programadorId;
 	}
-
+	
 	public String getDiaSemana() {
 		return diaSemana;
 	}
